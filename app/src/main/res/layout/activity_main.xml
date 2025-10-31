@@ -1,57 +1,33 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- activity_main.xml -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-    <!-- Header -->
-    <LinearLayout
-        android:id="@+id/header_layout"
-        android:layout_width="0dp"
-        android:layout_height="90dp"
-        android:orientation="vertical"
-        android:background="#FFCDD2"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-        <!-- Contenido del Header aquí -->
-    </LinearLayout>
+    <!-- 1. Barra Superior (Toolbar) -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/topAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="#62D3CB"
+        app:title="ALT+RUIDO"
+        app:titleTextColor="@android:color/white" />
 
-    <!-- Footer -->
-    <LinearLayout
-        android:id="@+id/footer_layout"
-        android:layout_width="0dp"
-        android:layout_height="88dp"
-        android:orientation="vertical"
-        android:background="#BBDEFB"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-        <!-- Contenido del Footer aquí -->
-    </LinearLayout>
+    <!-- 2. Contenido que cambiará en cada pantalla -->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_host_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/topAppBar"
+        android:layout_above="@id/bottom_navigation" />
 
-    <!-- Contenido Principal (Dinámico) -->
-    <LinearLayout
-        android:id="@+id/content_layout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        android:background="#E8F5E9"
-        app:layout_constraintTop_toBottomOf="@id/header_layout"
-        app:layout_constraintBottom_toTopOf="@id/footer_layout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+    <!-- 3. Barra de Navegación Inferior -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/bottom_navigation_menu" /> <!-- Necesitarás crear este menú -->
 
-        <!-- Aquí dentro puedes poner un ScrollView si el contenido es más largo que la pantalla -->
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <!-- Tu contenido dinámico va aquí -->
-        </ScrollView>
-
-    </LinearLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
