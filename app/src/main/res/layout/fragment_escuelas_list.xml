@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="#F0F4F7"
+    android:background="?attr/colorSurface"
     tools:context=".EscuelasListFragment">
 
     <!-- CAMBIO 1: Creamos un contenedor para el buscador y la lista -->

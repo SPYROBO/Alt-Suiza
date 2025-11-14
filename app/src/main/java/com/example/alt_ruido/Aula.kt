@@ -1,8 +1,6 @@
 package com.example.alt_ruido
 
-/**
- * Clase de datos que representa una fila de la tabla 'aulas'.
- */
+// ESTRUCTURA DE LA CLASE AULA
 data class Aula(
     val id: Int,
     val num_aula: Int,

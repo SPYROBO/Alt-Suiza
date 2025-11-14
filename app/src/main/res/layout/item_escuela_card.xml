@@ -11,7 +11,7 @@
     app:cardCornerRadius="20dp"
     app:cardElevation="4dp"
     app:strokeWidth="2dp"
-    app:strokeColor="#C8C8C8">
+    app:strokeColor="?attr/colorSurface">
 
     <!-- ConstraintLayout da flexibilidad para posicionar elementos -->
     <androidx.constraintlayout.widget.ConstraintLayout
