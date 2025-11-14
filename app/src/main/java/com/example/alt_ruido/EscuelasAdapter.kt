@@ -9,9 +9,12 @@ import com.example.alt_ruido.databinding.ItemEscuelaCardBinding
 import com.google.android.material.card.MaterialCardView
 import kotlin.random.Random
 
+// Hereda de RecyclerView.Adapter. Le decimos que va a manejar una lista de 'Escuela'
+// y que cada item visual sera de tipo 'Escuelaviewholder'
 class EscuelasAdapter(private var escuelas: List<Escuela>) :
     RecyclerView.Adapter<EscuelasAdapter.EscuelaViewHolder>() {
 
+        // CONTIENE LAS REFERENCIAS A UNA SOLA TARJETA
     class EscuelaViewHolder(val binding: ItemEscuelaCardBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EscuelaViewHolder {
@@ -21,14 +24,14 @@ class EscuelasAdapter(private var escuelas: List<Escuela>) :
 
     override fun getItemCount() = escuelas.size
 
-    // Rellena una tarjeta específica CON LA LÓGICA DE COLORES
+    // Rellena una tarjeta específica CON LA LOGICA DE COLORES
     override fun onBindViewHolder(holder: EscuelaViewHolder, position: Int) {
         val escuela = escuelas[position]
 
         // Asignamos el nombre de la escuela
         holder.binding.tvNombreEscuela.text = escuela.nombre
 
-        // Simula los decibelios con un número aleatorio para el ejemplo
+        // Simula los decibelios con un número aleatorio por ahora
         val decibelios = Random.nextInt(70, 101)
         holder.binding.tvDecibelios.text = "+${decibelios}db"
 
@@ -55,12 +58,9 @@ class EscuelasAdapter(private var escuelas: List<Escuela>) :
         }
     }
 
-    /**
-     * Función clave para el buscador: actualiza la lista de escuelas
-     * que muestra el adaptador y notifica al RecyclerView para que se redibuje.
-     */
+    // ACTUALIZA LA VISTA AL MOMENTO DE USAR EL BUSCADOT
     fun updateData(newEscuelas: List<Escuela>) {
         this.escuelas = newEscuelas
-        notifyDataSetChanged() // Esto le dice al RecyclerView: "¡Hey, los datos cambiaron, actualízate!"
+        notifyDataSetChanged() // Esto actualiza el RecyclerView"
     }
 }

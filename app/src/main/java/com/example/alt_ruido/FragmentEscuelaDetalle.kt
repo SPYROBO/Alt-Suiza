@@ -19,29 +19,38 @@ import com.google.android.material.color.MaterialColors
 import org.json.JSONArray
 
 class FragmentEscuelaDetalle : Fragment() {
-
+//USAR BINDING SIRVE ACCEDER A LAS DEMÁS VISTAS
     private var _binding: FragmentEscuelaDetalleBinding? = null
     private val binding get() = _binding!!
+
+    // SE ENVIA EL OBJ ESCUELA
     private val args: FragmentEscuelaDetalleArgs by navArgs()
 
+    /// CONVIERTE EL LAYOUT XML EN VISTAS
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentEscuelaDetalleBinding.inflate(inflater, container, false)
-        return binding.root
+        return binding.root //lA VISA RAIZ ES DEVUELTA
     }
 
+    // SE LLAMA LUEGO DE QUE LA VISTA FUE CREADA
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val escuela = args.escuelaSeleccionada
         binding.tvEscuelaNombreDetalle.text = escuela.nombre
+
+        // LLAMADA A LA FUNCION PARA CREAR TURNOS
         mostrarBotonesDeTurno(escuela)
     }
 
+    // FUNCION PARA CREAR TURNOS
     private fun mostrarBotonesDeTurno(escuela: Escuela) {
+        // SE CREA UNA LISTA MODIFICABLE
         val turnos = mutableListOf<String>()
         when {
+            // SE AÑADE EL TURNO DEPENDIENDO LO QUE CONTENGA JORNADA
             escuela.jornada.contains("Completa", ignoreCase = true) -> {
                 turnos.add("Turno Mañana")
                 turnos.add("Turno Tarde")
@@ -57,15 +66,15 @@ class FragmentEscuelaDetalle : Fragment() {
         }
 
         turnos.forEach { nombreTurno ->
+            // SE AÑADEN ESTILOS PARA LOS BOTONES
             val boton = MaterialButton(requireContext(), null, MaterialR.attr.materialButtonOutlinedStyle).apply {
                 text = nombreTurno
-                // (Estilo del botón como lo tenías)
-                textSize = 18f
+                textSize = 30f
                 cornerRadius = 30
-                val colorPrimary = MaterialColors.getColor(requireContext(), com.google.android.material.R.attr.colorPrimary, "Error")
-                setTextColor(colorPrimary)
-                strokeColor = android.content.res.ColorStateList.valueOf(colorPrimary)
-                strokeWidth = 4
+                // el color lo declare en la carpeta theme
+                setBackgroundColor(requireContext().getColor(R.color.light_blue_button))
+                setTextColor(requireContext().getColor(R.color.dark_green_text))
+
                 layoutParams = ViewGroup.MarginLayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT
@@ -73,7 +82,7 @@ class FragmentEscuelaDetalle : Fragment() {
                     topMargin = 24
                 }
 
-                // Acción al hacer clic en un turno
+                // ACCION AL HACER CLICK EN UN TURNO
                 setOnClickListener {
                     binding.containerTurnos.removeAllViews() // Borra los otros botones de turno
                     this.isClickable = false // Evita que se pueda volver a hacer clic
@@ -88,9 +97,10 @@ class FragmentEscuelaDetalle : Fragment() {
     private fun obtenerYMostrarAulas(escuelaId: Int) {
         binding.tvTituloAulas.isVisible = true // Muestra el título "Aulas:"
 
-        // **IMPORTANTE**: Reemplaza con la IP de tu servidor
+        // ACA TIENEN QUE REEMPLAZAR CON LA URL QUE SACARON AL LEER NOTAS.TXT
         val url = "https://unseeking-acrimoniously-melodee.ngrok-free.dev/api/get_aulas.php?esc_id=$escuelaId"
 
+        // SE CREA LA PETICION GET PARA OBTENER LAS AULAS
         val request = StringRequest(Request.Method.GET, url,
             { response ->
                 try {
@@ -118,6 +128,7 @@ class FragmentEscuelaDetalle : Fragment() {
         Volley.newRequestQueue(requireContext()).add(request)
     }
 
+    // FUNCION PARA CREAR BTNES DE AULAS
     private fun crearBotonesDeAulas(aulas: List<Aula>) {
         binding.containerAulas.removeAllViews() // Limpia botones anteriores
 
@@ -125,10 +136,9 @@ class FragmentEscuelaDetalle : Fragment() {
             val botonAula = MaterialButton(requireContext()).apply {
                 text = aula.num_aula.toString()
 
-                // Estilo del botón de aula
-                val colorPrimary = MaterialColors.getColor(requireContext(), MaterialR.attr.colorPrimary, "Error")
-                setBackgroundColor(colorPrimary)
-                setTextColor(MaterialColors.getColor(requireContext(), MaterialR.attr.colorOnPrimary, "Error"))
+                // Estilo del botón de aula (colores de la carpeta theme)
+                setBackgroundColor(requireContext().getColor(R.color.light_blue_button))
+                setTextColor(requireContext().getColor(R.color.dark_green_text))
                 cornerRadius = 24
 
                 // Parámetros para que el botón funcione dentro de un GridLayout
@@ -142,7 +152,7 @@ class FragmentEscuelaDetalle : Fragment() {
 
                 setOnClickListener {
                     Toast.makeText(context, "Aula seleccionada: ${aula.num_aula}", Toast.LENGTH_SHORT).show()
-                    // Aquí puedes navegar a la siguiente pantalla, pasándole el ID del aula
+                    // Aqui le pasas el ID del aula para que te mande a otra pantalla
                 }
             }
             binding.containerAulas.addView(botonAula)

@@ -22,14 +22,15 @@
             android:textColor="#388E3C"
             android:textSize="28sp"
             android:textStyle="bold"
-            tools:text="Escuela T. N°26\n&quot;Confederacion Suiza&quot;" />
+            tools:text="Escuela T. N°26\ Confederacion Suiza" />
 
         <!-- Contenedor para los botones de TURNO (se llenará desde el código) -->
         <LinearLayout
             android:id="@+id/container_turnos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
+            android:gravity="center"
+            android:paddingHorizontal="16dp"
             android:orientation="vertical" />
 
         <!-- Título "Aulas" (inicialmente oculto) -->

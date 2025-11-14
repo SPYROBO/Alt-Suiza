@@ -26,7 +26,7 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // --- 1. Lógica del Modo Oscuro ---
+        // MODO OSCURO
         // Comprueba el estado actual del sistema para marcar o no el switch
         val isNightMode = AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
         binding.switchDarkMode.isChecked = isNightMode
@@ -41,7 +41,7 @@ class ProfileFragment : Fragment() {
             }
         }
 
-        // --- 2. Lógica de la Versión de la App ---
+        // VERSION DE LA APP
         try {
             val versionName = requireContext().packageManager
                 .getPackageInfo(requireContext().packageName, 0).versionName
@@ -50,10 +50,10 @@ class ProfileFragment : Fragment() {
             binding.tvAppVersion.text = "Versión de la app: N/A"
         }
 
-        // --- 3. Lógica del botón de Contacto ---
+        // BTN CONTACTO
         binding.tvContact.setOnClickListener {
             val intent = Intent(Intent.ACTION_SENDTO).apply {
-                data = Uri.parse("mailto:") // Solo apps de email deben manejar esto
+                data = Uri.parse("mailto:") // AUN NO ESTÁ EN USO
                 putExtra(Intent.EXTRA_EMAIL, arrayOf("tu.email@ejemplo.com"))
                 putExtra(Intent.EXTRA_SUBJECT, "Reporte de problema en App Alt-Ruido")
             }

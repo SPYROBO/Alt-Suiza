@@ -14,11 +14,13 @@ import com.android.volley.toolbox.Volley
 import com.example.alt_ruido.databinding.FragmentEscuelasListBinding
 import org.json.JSONArray
 
+// SE ENCARGA DE MOSTRAR LA LISTA DE ESCUELAS
 class EscuelasListFragment : Fragment() {
 
     private var _binding: FragmentEscuelasListBinding? = null
     private val binding get() = _binding!!
 
+    // SE GUARDA UNA COPIA DE LA LISTA, para q el buscador tenga acceso más fácil
     private var listaCompletaDeEscuelas = listOf<Escuela>()
     private lateinit var adapter: EscuelasAdapter
 
@@ -32,14 +34,16 @@ class EscuelasListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupRecyclerView()
-        setupSearchView()
-        obtenerEscuelas()
+        setupRecyclerView() // configura la lista
+        setupSearchView() // Configura el buscador
+        obtenerEscuelas()//pide los datos al sv
     }
 
     private fun setupRecyclerView() {
         adapter = EscuelasAdapter(listOf())
+        // le decimos que agregue las tarjetas una abajo de la otra
         binding.recyclerViewEscuelas.layoutManager = LinearLayoutManager(context)
+        // se conecta el recyclerView con el adapter
         binding.recyclerViewEscuelas.adapter = adapter
     }
 
@@ -49,12 +53,14 @@ class EscuelasListFragment : Fragment() {
         binding.searchView.isIconified = false
         binding.searchView.clearFocus()
 
+        // avisa de los cambios en el search
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
+                // se oculta el teclado cuando se presiona 'buscar'
                 binding.searchView.clearFocus()
                 return true
             }
-
+// se llama cada que el teclado cambia
             override fun onQueryTextChange(newText: String?): Boolean {
                 filtrarLista(newText)
                 return true
@@ -63,9 +69,12 @@ class EscuelasListFragment : Fragment() {
     }
 
     private fun filtrarLista(texto: String?) {
+
+        // si el buscador está vacio, la lista se muestra entera
         val listaParaMostrar = if (texto.isNullOrEmpty()) {
             listaCompletaDeEscuelas
         } else {
+            // se realiza comparaciones en minuscula y sin espacios
             val textoBusqueda = texto.lowercase().trim()
             listaCompletaDeEscuelas.filter { escuela ->
                 escuela.nombre.lowercase().contains(textoBusqueda)
@@ -75,7 +84,7 @@ class EscuelasListFragment : Fragment() {
     }
 
     private fun obtenerEscuelas() {
-        // 1. Mostrar el ProgressBar y ocultar el contenedor principal del contenido.
+        // muestra el ProgressBar y ocultar el contenedor principal del contenido.
         binding.progressBar.visibility = View.VISIBLE
         binding.contentContainer.visibility = View.GONE
 
@@ -83,7 +92,7 @@ class EscuelasListFragment : Fragment() {
         val request = StringRequest(
             Request.Method.GET, url,
             { response ->
-                // 2. Al recibir datos, ocultar el ProgressBar y mostrar el contenedor principal.
+                //  Al recibir datos, ocultar el ProgressBar y mostrar el contenedor principal.
                 binding.progressBar.visibility = View.GONE
                 binding.contentContainer.visibility = View.VISIBLE
 
@@ -120,7 +129,7 @@ class EscuelasListFragment : Fragment() {
                 }
             },
             { error ->
-                // 3. Ocultar el ProgressBar también si hay un error de red.
+                // Ocultar el ProgressBar también si hay un error de red.
                 binding.progressBar.visibility = View.GONE
                 Toast.makeText(context, "Error de red: ${error.message}", Toast.LENGTH_LONG).show()
             }

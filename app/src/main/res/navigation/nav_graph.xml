@@ -5,7 +5,7 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/homeFragment">
 
-    <!-- FRAGMENTO 1: Pantalla de Inicio -->
+    <!-- Pantalla de Inicio -->
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.alt_ruido.HomeFragment"
@@ -16,7 +16,7 @@
             app:destination="@id/escuelasListFragment" />
     </fragment>
 
-    <!-- FRAGMENTO 2: Muestra la lista de escuelas -->
+    <!-- Muestra la lista de escuelas -->
     <fragment
         android:id="@+id/escuelasListFragment"
         android:name="com.example.alt_ruido.EscuelasListFragment"
@@ -29,7 +29,7 @@
             app:destination="@id/fragmentEscuelaDetalle" />
     </fragment>
 
-    <!-- FRAGMENTO 3: Muestra el detalle de UNA escuela -->
+    <!-- Muestra el detalle de UNA escuela -->
     <fragment
         android:id="@+id/fragmentEscuelaDetalle"
         android:name="com.example.alt_ruido.FragmentEscuelaDetalle"
@@ -41,7 +41,7 @@
             app:argType="com.example.alt_ruido.Escuela" />
     </fragment>
 
-    <!-- Otros fragmentos de tu app -->
+    <!--  fragmetnos de mapa y settings (profile) -->
     <fragment
         android:id="@+id/mapFragment"
         android:name="com.example.alt_ruido.MapFragment"

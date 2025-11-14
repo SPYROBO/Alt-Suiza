@@ -7,7 +7,7 @@
     android:background="?attr/colorSurface"
     tools:context=".EscuelasListFragment">
 
-    <!-- CAMBIO 1: Creamos un contenedor para el buscador y la lista -->
+    <!-- contenedor para el buscador y la lista -->
     <LinearLayout
         android:id="@+id/content_container"
         android:layout_width="match_parent"
@@ -24,7 +24,8 @@
             android:layout_margin="16dp"
             android:background="@drawable/search_view_bg"
             android:iconifiedByDefault="false"
-            android:queryHint="Buscar escuela por nombre..." />
+            android:queryHint="Buscar escuela por nombre..."
+            />
 
         <!-- RecyclerView que muestra la lista de tarjetas de escuelas -->
         <androidx.recyclerview.widget.RecyclerView
