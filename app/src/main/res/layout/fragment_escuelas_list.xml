@@ -1,21 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<!-- SE ALINEAN LOS OBJETOS VERTICALMENTE -->
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:animateLayoutChanges="true"
+    android:background="#F0F4F7"
     tools:context=".EscuelasListFragment">
 
-    <!-- CONTIENE UN RECYCLERVIEW encargado de mostrar la lista -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_escuelas"
+    <!-- CAMBIO 1: Creamos un contenedor para el buscador y la lista -->
+    <LinearLayout
+        android:id="@+id/content_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:paddingVertical="8dp"
-        tools:listitem="@layout/item_escuela_card" />
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible">
 
-</LinearLayout>
+        <!-- Buscador para filtrar escuelas por nombre -->
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="@drawable/search_view_bg"
+            android:iconifiedByDefault="false"
+            android:queryHint="Buscar escuela por nombre..." />
+
+        <!-- RecyclerView que muestra la lista de tarjetas de escuelas -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_escuelas"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="8dp"
+            tools:listitem="@layout/item_escuela_card" />
+
+    </LinearLayout>
+
+    <!-- El indicador de carga ahora está fuera del contenedor, en el RelativeLayout principal -->
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="visible" />
+
+</RelativeLayout>

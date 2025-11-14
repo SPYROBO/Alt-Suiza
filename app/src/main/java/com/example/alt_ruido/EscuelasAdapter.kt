@@ -9,30 +9,23 @@ import com.example.alt_ruido.databinding.ItemEscuelaCardBinding
 import com.google.android.material.card.MaterialCardView
 import kotlin.random.Random
 
-// TOMA LA LISTA DE ESCUELAS PASADA POR ESCUELASLISTFRAGMENT
-// y el layout de una tarjeta
-// crea, rellena y recicla c/u de las tarjetas
 class EscuelasAdapter(private var escuelas: List<Escuela>) :
     RecyclerView.Adapter<EscuelasAdapter.EscuelaViewHolder>() {
 
-    // Clase interna que representa la vista de una tarjeta y usa ViewBinding
     class EscuelaViewHolder(val binding: ItemEscuelaCardBinding) : RecyclerView.ViewHolder(binding.root)
 
-    // crea una nueva lista de tarjetas a partir del xml
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EscuelaViewHolder {
         val binding = ItemEscuelaCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return EscuelaViewHolder(binding)
     }
 
-    // le dice al recyclerview cuantos elementos hay en total
     override fun getItemCount() = escuelas.size
 
-    // Rellena una tarjeta específica
+    // Rellena una tarjeta específica CON LA LÓGICA DE COLORES
     override fun onBindViewHolder(holder: EscuelaViewHolder, position: Int) {
         val escuela = escuelas[position]
-        val context = holder.itemView.context
 
-        // Asignamos los datos a los TextViews usando el binding
+        // Asignamos el nombre de la escuela
         holder.binding.tvNombreEscuela.text = escuela.nombre
 
         // Simula los decibelios con un número aleatorio para el ejemplo
@@ -50,24 +43,24 @@ class EscuelasAdapter(private var escuelas: List<Escuela>) :
         val cardColor = Color.parseColor(cardColorHex)
         val textColor = Color.parseColor(textColorHex)
 
-        // Aplicamos los colores
+        // Aplicamos los colores a la tarjeta
         (holder.itemView as MaterialCardView).setCardBackgroundColor(cardColor)
         holder.binding.tvNombreEscuela.setTextColor(textColor)
         holder.binding.tvDecibelios.setTextColor(textColor)
-        // El color de "Mas info..." se mantiene negro por defecto.
 
+        // Lógica para navegar al hacer clic
         holder.itemView.setOnClickListener {
-            // --- ESTA ES LA LÍNEA CRÍTICA CORREGIDA ---
-            // 1. Usamos la clase del fragmento de ORIGEN (EscuelasListFragment) seguida de "Directions".
             val action = EscuelasListFragmentDirections.actionEscuelasListFragmentToFragmentEscuelaDetalle(escuela)
-
-            // 2. Ejecutamos la navegación
             holder.itemView.findNavController().navigate(action)
         }
     }
-    // Función para actualizar los datos del adaptador
+
+    /**
+     * Función clave para el buscador: actualiza la lista de escuelas
+     * que muestra el adaptador y notifica al RecyclerView para que se redibuje.
+     */
     fun updateData(newEscuelas: List<Escuela>) {
         this.escuelas = newEscuelas
-        notifyDataSetChanged()
+        notifyDataSetChanged() // Esto le dice al RecyclerView: "¡Hey, los datos cambiaron, actualízate!"
     }
 }
