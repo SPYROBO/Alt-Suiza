@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Usamos CardView como contenedor principal -->
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="4dp"
+    app:strokeWidth="2dp"
+    app:strokeColor="#C8C8C8">
+
+    <!-- ConstraintLayout da flexibilidad para posicionar elementos -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- Contenedor para el texto de la izquierda -->
+        <LinearLayout
+            android:id="@+id/linearLayoutInfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tv_decibelios">
+
+            <TextView
+                android:id="@+id/tv_nombre_escuela"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#2E7D32"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:text="E.T N°26 'Confederacion Suiza'" />
+
+            <TextView
+                android:id="@+id/tv_mas_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Mas info..."
+                android:textColor="@android:color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Texto de los decibeles a la derecha -->
+        <TextView
+            android:id="@+id/tv_decibelios"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#2E7D32"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="+95db" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

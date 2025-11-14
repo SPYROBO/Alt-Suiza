@@ -5,22 +5,52 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/homeFragment">
 
+    <!-- FRAGMENTO 1: Pantalla de Inicio -->
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.alt_ruido.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_escuelasListFragment"
+            app:destination="@id/escuelasListFragment" />
+    </fragment>
 
+    <!-- FRAGMENTO 2: Muestra la lista de escuelas -->
+    <fragment
+        android:id="@+id/escuelasListFragment"
+        android:name="com.example.alt_ruido.EscuelasListFragment"
+        android:label="fragment_escuelas_list"
+        tools:layout="@layout/fragment_escuelas_list" >
+        <!-- ACCIÓN: Define la navegación DESDE la lista HACIA el detalle -->
+        <!-- Safe Args usa este ID para crear el método de navegación -->
+        <action
+            android:id="@+id/action_escuelasListFragment_to_fragmentEscuelaDetalle"
+            app:destination="@id/fragmentEscuelaDetalle" />
+    </fragment>
+
+    <!-- FRAGMENTO 3: Muestra el detalle de UNA escuela -->
+    <fragment
+        android:id="@+id/fragmentEscuelaDetalle"
+        android:name="com.example.alt_ruido.FragmentEscuelaDetalle"
+        android:label="fragment_escuela_detalle"
+        tools:layout="@layout/fragment_escuela_detalle" >
+        <!-- ARGUMENTO: Declara que este fragmento espera recibir un objeto Escuela -->
+        <argument
+            android:name="escuela_seleccionada"
+            app:argType="com.example.alt_ruido.Escuela" />
+    </fragment>
+
+    <!-- Otros fragmentos de tu app -->
     <fragment
         android:id="@+id/mapFragment"
         android:name="com.example.alt_ruido.MapFragment"
         android:label="fragment_map"
         tools:layout="@layout/fragment_map" />
-
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.alt_ruido.ProfileFragment"
-        android:label="fragment_profile"
+        android:label="fragment_user"
         tools:layout="@layout/fragment_profile" />
 
 </navigation>

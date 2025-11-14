@@ -5,12 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.alt_ruido.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
-    // Esta propiedad solo es válida entre onCreateView y onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -24,10 +24,13 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Aquí puedes añadir la lógica para los botones, por ejemplo:
-        // binding.btnVerMapa.setOnClickListener {
-        //     // Navegar a la pantalla del mapa
-        // }
+        // La única responsabilidad de este fragment es navegar al siguiente.
+        // Asumiendo que tu botón en fragment_home.xml tiene el id 'btn_ver_escuelas'
+        // o el que corresponda.
+        binding.btnVerMapa.setOnClickListener {
+            // Usamos NavController para navegar a la pantalla de la lista de tarjetas.
+            findNavController().navigate(R.id.action_homeFragment_to_escuelasListFragment)
+        }
     }
 
     override fun onDestroyView() {

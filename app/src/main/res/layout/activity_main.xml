@@ -1,10 +1,15 @@
-<!-- activity_main.xml -->
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- ORGANIZA LA ESTRUCTURA DEL LAYOUT -->
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
 
-    <!-- 1. Barra Superior (Toolbar) -->
+    <!-- BARRA SUPERIOR FIJA -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/topAppBar"
         android:layout_width="match_parent"
@@ -14,20 +19,24 @@
         app:title="ALT+RUIDO"
         app:titleTextColor="@android:color/white" />
 
-    <!-- 2. Contenido que cambiará en cada pantalla -->
+    <!-- EL NAVHOSTFRAGMENT: AQUI SE MUESTRAN TODAS LAS PANTALLAS -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@id/bottom_navigation"
         android:layout_below="@id/topAppBar"
-        android:layout_above="@id/bottom_navigation" />
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph" />
 
-    <!-- 3. Barra de Navegación Inferior -->
+
+    <!-- BARRA INFERIOR FIJA -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/bottom_navigation_menu" /> <!-- Necesitarás crear este menú -->
+        app:menu="@menu/bottom_navigation_menu" />
 
 </RelativeLayout>
