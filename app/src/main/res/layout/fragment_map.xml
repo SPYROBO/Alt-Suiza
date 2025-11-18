@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--  FrameLayout es ideal para superponer elementos,
+     aunque solo contendrá el mapa. -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MapFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Mapa"
-        android:textSize="24sp" />
+    <!--
+    Este es el contenedor que Google Maps usará para dibujar el mapa.
+    -->
+    <fragment
+        android:id="@+id/map_fragment_container"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </FrameLayout>
