@@ -1,33 +1,69 @@
-<!-- activity_main.xml -->
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
 
-    <!-- 1. Barra Superior (Toolbar) -->
+    <!-- BARRA SUPERIOR FIJA -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/topAppBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:layout_alignParentTop="true"
         android:background="#62D3CB"
-        app:title="ALT+RUIDO"
-        app:titleTextColor="@android:color/white" />
+        app:contentInsetStart="0dp"
+        app:contentInsetEnd="0dp">
 
-    <!-- 2. Contenido que cambiará en cada pantalla -->
+        <!-- LinearLayout para centrar el contenido (ícono + texto) -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <!-- 1. El Ícono -->
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_logo_alt_ruido"
+                app:tint="@android:color/white" />
+
+            <!-- 2. El Texto del Título -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:text="ALT+RUIDO"
+                android:textColor="@android:color/white"
+                android:textSize="35sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <!-- EL NAVHOSTFRAGMENT: AQUI SE MUESTRAN TODAS LAS PANTALLAS -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@id/bottom_navigation"
         android:layout_below="@id/topAppBar"
-        android:layout_above="@id/bottom_navigation" />
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph" />
 
-    <!-- 3. Barra de Navegación Inferior -->
+
+    <!-- BARRA INFERIOR FIJA -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/bottom_navigation_menu" /> <!-- Necesitarás crear este menú -->
+        app:menu="@menu/bottom_navigation_menu" />
 
 </RelativeLayout>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".FragmentEscuelaDetalle">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- Título con el nombre de la escuela -->
+        <TextView
+            android:id="@+id/tv_escuela_nombre_detalle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            android:textColor="#388E3C"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            tools:text="Escuela T. N°26\ Confederacion Suiza" />
+
+        <!-- Contenedor para los botones de TURNO (se llenará desde el código) -->
+        <LinearLayout
+            android:id="@+id/container_turnos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingHorizontal="16dp"
+            android:orientation="vertical" />
+
+        <!-- Título "Aulas" (inicialmente oculto) -->
+        <TextView
+            android:id="@+id/tv_titulo_aulas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Aulas:"
+            android:textColor="#388E3C"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <!-- Contenedor en cuadrícula para los botones de AULA (se llenará desde el código) -->
+        <GridLayout
+            android:id="@+id/container_aulas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:alignmentMode="alignMargins"
+            android:columnCount="3"
+            android:columnOrderPreserved="false"
+            tools:layout_height="200dp" />
+
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,43 @@
+---------------CARPETA API-------------------
+1. Descargar la carpeta configuracion_API que les compartí al drive
+2. Dentro de la carpeta se encuentra otra llamada "api"
+3. Descarguen la carpeta "api"
+4. Esta carpeta la deben colocar dentro del htdocs, la ruta les debería quedar así: "\xampp\htdocs\api"
+5.Asegurarse de que dentro de la carpeta api exista el archivo de configuracion .php 
+y listo
+
+-----------------------OBTENER URL PARA ACCEDER A LA API------------------------------
+
+En el archivo EscuelasViewModel.kt ruta: app/src/main/java/com/example/alt_ruido/EscuelasViewModel.kt
+
+Existe esta variable: 
+private val url = "..." la URL que va aquí la pueden obtener de 3 formas, dependiendo de cual les funcione.
+
+
+INTENTO 1:
+pueden probar con esta URL "10.0.0.2/api/get_escuelas.php"
+private val url = "10.0.0.2/api/get_escuelas.php"
+
+INTENTO 2: 
+
+en el cmd escriban el comando ipconfig y copien la IP que tengan
+
+luego añadan su IP correspondiente en la URL "IP/api/get_escuelas.php"
+private val url = "IP/api/get_escuelas.php"
+
+INTENTO 3:
+
+Si ninguna de las op anteriores les funcionó, significa que su red está negando el acceso (configuraciones de red)
+Como alternativa pueden descargar ngrok
+
+1. Crearse una cuenta en ngrok
+2. Copiar el token que les generó
+3. Descargar ngrok y colocar el .exe en la carpeta xampp, la ruta debería quedarles: "\xampp\ngrok.exe"
+4. Abrir el .exe y configurar ngrok con el token que les dio (es solo una linea de comando y le añaden el token donde les indica)
+5. Escriben el 2do comando : ngrok http 80
+6. Copian la url que les aparece luego de este comando y la añaden en la variable
+
+Debería quedar así:
+private val url = "URL_ngrok/api/get_escuelas.php"
+
+
