@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Usamos CardView como contenedor principal -->
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,10 +9,9 @@
     android:layout_marginVertical="8dp"
     app:cardCornerRadius="20dp"
     app:cardElevation="4dp"
-    app:strokeWidth="2dp"
-    app:strokeColor="?attr/colorSurface">
+    app:strokeColor="?attr/colorSurface"
+    app:strokeWidth="2dp">
 
-    <!-- ConstraintLayout da flexibilidad para posicionar elementos -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,12 +22,12 @@
             android:id="@+id/linearLayoutInfo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_marginEnd="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/tv_decibelios">
+            app:layout_constraintEnd_toStartOf="@id/tv_decibelios"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/tv_nombre_escuela"
@@ -50,18 +48,35 @@
                 android:textSize="14sp" />
         </LinearLayout>
 
-        <!-- Texto de los decibeles a la derecha -->
+        <!-- Texto de los decibeles -->
         <TextView
             android:id="@+id/tv_decibelios"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
             android:textColor="#2E7D32"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/iv_favorite_star"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="+95db" />
+
+        <!-- Estrella de Favoritos -->
+        <ImageView
+            android:id="@+id/iv_favorite_star"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="4dp"
+            android:src="@android:drawable/star_off"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

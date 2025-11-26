@@ -9,25 +9,17 @@ import com.android.volley.Request
 import com.android.volley.toolbox.JsonArrayRequest
 import org.json.JSONException
 
-// ACA SE OBTIENEN LOS DATOS DE LA BD Y SON ENVIADOS A EscuelasAdapter
 class EscuelasViewModel : ViewModel() {
 
-    // CONTIENE LA LISTA DE ESCUELAS (privada para que solo el ViewModel pueda modificarla)
-    // '_escuelas' está escrito así por una convencion de Kotlin: variable interna
-    private val _escuelas = MutableLiveData<List<Escuela>>() // mutablelivedata porque se puede cambiar el valor que contiene
-
-    // LISTA SOLO DE LECTURA (no mutable)
+    private val _escuelas = MutableLiveData<List<Escuela>>()
     val escuelas: LiveData<List<Escuela>> get() = _escuelas
 
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> get() = _error
 
-    // --- URL PARA ACCEDER A LA API---
-    private val url = "https://unseeking-acrimoniously-melodee.ngrok-free.dev/api/get_escuelas.php"
+    private val url = "https://gangliar-chet-promptly.ngrok-free.dev/api/get_escuelas.php"
 
-    // FUNCION PARA CARGAR ESCUELAS
     fun cargarEscuelas(context: Context) {
-        // Crea una peticion de red, si tiene exito procesa el JSON
         val jsonArrayRequest = JsonArrayRequest(
             Request.Method.GET, url, null,
             { response ->
@@ -36,19 +28,19 @@ class EscuelasViewModel : ViewModel() {
                     for (i in 0 until response.length()) {
                         val jsonObject = response.getJSONObject(i)
                         val escuela = Escuela(
-                            id = jsonObject.optInt("id"),
-                            nombre = jsonObject.optString("nombre", "Sin nombre"),
-                            cue = jsonObject.optInt("cue"),
-                            point_x = jsonObject.optDouble("point_x"),
-                            point_y = jsonObject.optDouble("point_y"),
-                            calle = jsonObject.optString("calle", "Sin calle"),
-                            num_calle = jsonObject.optInt("num_calle"),
-                            jornada = jsonObject.optString("jornada", "No especificada"),
-                            sector = jsonObject.optString("sector", "No especificado"),
-                            barrio = jsonObject.optString("barrio", "No especificado"),
-                            comuna = jsonObject.optInt("comuna"),
+                            id = jsonObject.optInt("id", 0),
+                            nombre = jsonObject.optString("nombre", "Nombre no disponible"),
+                            cue = jsonObject.optInt("cue", 0),
+                            point_x = jsonObject.optDouble("point_x", 0.0),
+                            point_y = jsonObject.optDouble("point_y", 0.0),
+                            calle = jsonObject.optString("calle", "Calle no disponible"),
+                            num_calle = jsonObject.optInt("num_calle", 0),
+                            jornada = jsonObject.optString("jornada", "Jornada no especificada"),
+                            sector = jsonObject.optString("sector", "Sector no especificado"),
+                            barrio = jsonObject.optString("barrio", "Barrio no especificado"),
+                            comuna = jsonObject.optInt("comuna", 0),
                             clave_rama = jsonObject.optString("clave_rama", "N/A"),
-                            mail = jsonObject.optString("mail", "Sin email")
+                            mail = jsonObject.optString("mail", "Email no disponible")
                         )
                         listaMutable.add(escuela)
                     }
@@ -62,14 +54,12 @@ class EscuelasViewModel : ViewModel() {
             }
         )
 
-        // Le damos 10 segundos de tiempo de espera, por si la conexión es lenta.
         jsonArrayRequest.retryPolicy = DefaultRetryPolicy(
             10000,
             DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
             DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
         )
 
-        // SE ENVIA LA PETICION
         VolleySingleton.getInstance(context).addToRequestQueue(jsonArrayRequest)
     }
 }

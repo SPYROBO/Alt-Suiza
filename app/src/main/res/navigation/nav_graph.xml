@@ -3,7 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.alt_ruido.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
 
     <!-- Pantalla de Inicio -->
     <fragment
@@ -39,6 +52,19 @@
         <argument
             android:name="escuela_seleccionada"
             app:argType="com.example.alt_ruido.Escuela" />
+        <action
+            android:id="@+id/action_fragmentEscuelaDetalle_to_aulaDetalleFragment"
+            app:destination="@id/aulaDetalleFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/aulaDetalleFragment"
+        android:name="com.example.alt_ruido.AulaDetalleFragment"
+        android:label="fragment_aula_detalle"
+        tools:layout="@layout/fragment_aula_detalle">
+        <argument
+            android:name="numAula"
+            app:argType="integer" />
     </fragment>
 
     <!--  fragmetnos de mapa y settings (profile) -->
@@ -51,6 +77,16 @@
         android:id="@+id/profileFragment"
         android:name="com.example.alt_ruido.ProfileFragment"
         android:label="fragment_user"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.alt_ruido.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" />
 
 </navigation>

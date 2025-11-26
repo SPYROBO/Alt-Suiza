@@ -5,17 +5,15 @@ import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
 
-// ACÁ SE GESTIONAN LAS PETICIONES DE RED CON VOLLEY
 class VolleySingleton constructor(context: Context) {
     companion object {
         @Volatile
         private var INSTANCE: VolleySingleton? = null
-        fun getInstance(context: Context) =
-            INSTANCE ?: synchronized(this) {
-                INSTANCE ?: VolleySingleton(context).also {
-                    INSTANCE = it
-                }
+        fun getInstance(context: Context) = INSTANCE ?: synchronized(this) {
+            INSTANCE ?: VolleySingleton(context).also {
+                INSTANCE = it
             }
+        }
     }
 
     val requestQueue: RequestQueue by lazy {

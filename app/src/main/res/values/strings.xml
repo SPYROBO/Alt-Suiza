@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">alt_ruido</string>
+    <string name="aula_detalle_titulo">Detalle del Aula</string>
+    <string name="aula_numero">Aula N° %1$d</string>
+
+    <!-- RegisterFragment -->
+    <string name="register_missing_fields">Por favor, completa todos los campos</string>
+    <string name="register_success">¡Registro exitoso!</string>
+    <string name="register_no_server_message">Sin mensaje del servidor.</string>
+    <string name="register_error">Error en el registro: %1$s</string>
+    <string name="register_invalid_response">Respuesta inválida del servidor.</string>
+    <string name="register_unknown_network_error">Error de red desconocido</string>
+    <string name="register_connection_error">Error de conexión: %1$s</string>
 </resources>

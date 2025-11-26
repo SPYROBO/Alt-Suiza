@@ -46,16 +46,13 @@
             android:visibility="gone"
             tools:visibility="visible" />
 
-        <!-- Contenedor en cuadrícula para los botones de AULA (se llenará desde el código) -->
-        <GridLayout
-            android:id="@+id/container_aulas"
+        <!-- RecyclerView para mostrar las aulas en una cuadrícula -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_aulas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:alignmentMode="alignMargins"
-            android:columnCount="3"
-            android:columnOrderPreserved="false"
-            tools:layout_height="200dp" />
+            android:nestedScrollingEnabled="false" />
 
     </LinearLayout>
 </ScrollView>

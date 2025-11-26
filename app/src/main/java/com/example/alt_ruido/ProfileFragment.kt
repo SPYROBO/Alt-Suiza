@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.alt_ruido.databinding.FragmentProfileBinding
 
 class ProfileFragment : Fragment() {
@@ -26,17 +28,25 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        updateUI()
+
+        binding.btnGoToLogin.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
+        }
+
+        binding.btnLogout.setOnClickListener {
+            SessionManager.logout(requireContext())
+            findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
+        }
+
         // MODO OSCURO
-        // Comprueba el estado actual del sistema para marcar o no el switch
         val isNightMode = AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
         binding.switchDarkMode.isChecked = isNightMode
 
         binding.switchDarkMode.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                // Activar modo oscuro
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             } else {
-                // Desactivar modo oscuro
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
         }
@@ -53,15 +63,20 @@ class ProfileFragment : Fragment() {
         // BTN CONTACTO
         binding.tvContact.setOnClickListener {
             val intent = Intent(Intent.ACTION_SENDTO).apply {
-                data = Uri.parse("mailto:") // AUN NO ESTÁ EN USO
+                data = Uri.parse("mailto:")
                 putExtra(Intent.EXTRA_EMAIL, arrayOf("tu.email@ejemplo.com"))
                 putExtra(Intent.EXTRA_SUBJECT, "Reporte de problema en App Alt-Ruido")
             }
-            // Comprueba si hay una app de email antes de lanzar
             if (activity?.packageManager?.resolveActivity(intent, 0) != null) {
                 startActivity(intent)
             }
         }
+    }
+
+    private fun updateUI() {
+        val isLoggedIn = SessionManager.isLoggedIn(requireContext())
+        binding.btnLogout.isVisible = isLoggedIn
+        binding.btnGoToLogin.isVisible = !isLoggedIn
     }
 
     override fun onDestroyView() {

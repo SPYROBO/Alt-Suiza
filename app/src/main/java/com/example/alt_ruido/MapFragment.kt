@@ -63,7 +63,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
      * y dibujar un marcador para cada una en el mapa.
      */
     private fun obtenerYMarcarEscuelas() {
-        val url = "https://unseeking-acrimoniously-melodee.ngrok-free.dev/api/get_escuelas.php"
+        val url = "https://gangliar-chet-promptly.ngrok-free.dev/api/get_escuelas.php"
 
         // log de verificacion del llamado
         Log.d("MapDebug", "Iniciando petición a Volley a la URL: $url")

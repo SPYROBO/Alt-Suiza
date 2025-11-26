@@ -1,77 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
+    android:fillViewport="true"
     tools:context=".HomeFragment">
 
-    <!-- Tarjeta blanca con bordes redondeados -->
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <!-- Contenedor para alinear los elementos verticalmente -->
+        <!-- Sección de Favoritos (solo visible si hay sesión y favoritos) -->
         <LinearLayout
+            android:id="@+id/favorites_section"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:orientation="vertical"
-            android:padding="24dp">
-
-            <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:src="@drawable/ic_home"
-                app:tint="#62D3CB" />
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Bienvenido a Alt+Ruido"
-                android:textColor="#005A64"
-                android:textSize="22sp"
-                android:textStyle="bold" />
+                android:text="Mis Escuelas Favoritas"
+                android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+                android:layout_marginBottom="8dp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:backgroundTint="#62D3CB"
-                android:textColor="#6E8C82"
-                android:text="Monitorea y gestiona los niveles de ruido en entornos escolares."
-                android:textAlignment="center" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnVerMapa"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_favorites"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:backgroundTint="#62D3CB"
-                android:textColor="#005A64"
-                android:textSize="18sp"
-                android:paddingVertical="12dp"
-                android:text="Ver escuelas de CABA"
-                app:cornerRadius="16dp" />
+                android:nestedScrollingEnabled="false"
+                tools:listitem="@layout/item_escuela_card"
+                tools:itemCount="2"/>
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_no_favorites"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:textColor="#6E8C82"
-                android:text="Una iniciativa para mejorar el ambiente de aprendizaje"
-                android:textAlignment="center" />
+                android:text="Aún no tienes escuelas favoritas. ¡Marca una con la estrella!"
+                android:textAlignment="center"
+                android:padding="16dp"
+                android:visibility="gone"
+                tools:visibility="visible"/>
 
         </LinearLayout>
 
-    </com.google.android.material.card.MaterialCardView>
+        <!-- Tarjeta de bienvenida y botón principal -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="4dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/ic_home"
+                    app:tint="#62D3CB" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Bienvenido a Alt+Ruido"
+                    android:textColor="#005A64"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Monitorea y gestiona los niveles de ruido en entornos escolares."
+                    android:textAlignment="center" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnVerMapa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:backgroundTint="#62D3CB"
+                    android:paddingVertical="12dp"
+                    android:text="Ver todas las escuelas de CABA"
+                    android:textColor="#005A64"
+                    android:textSize="18sp"
+                    app:cornerRadius="16dp" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+</ScrollView>
