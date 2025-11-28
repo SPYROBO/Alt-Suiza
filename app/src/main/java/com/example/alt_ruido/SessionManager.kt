@@ -29,7 +29,9 @@ object SessionManager {
 
     fun logout(context: Context) {
         getPreferences(context).edit().apply {
-            clear()
+            remove(KEY_IS_LOGGED_IN)
+            remove(KEY_USER_ID)
+            remove(KEY_FAVORITE_ESCUELAS) // Importante: Limpiar favoritos al cerrar sesión
             apply()
         }
     }
@@ -39,25 +41,36 @@ object SessionManager {
     }
 
     // --- Favorites ---
+
+    /**
+     * Reemplaza la lista local de favoritos con la lista del servidor.
+     */
+    fun setFavorites(context: Context, favoriteIds: Set<String>) {
+        getPreferences(context).edit().apply {
+            putStringSet(KEY_FAVORITE_ESCUELAS, favoriteIds)
+            apply()
+        }
+    }
+
     fun getFavoriteIds(context: Context): Set<Int> {
         val favorites = getPreferences(context).getStringSet(KEY_FAVORITE_ESCUELAS, emptySet()) ?: emptySet()
-        return favorites.map { it.toInt() }.toSet()
+        return favorites.mapNotNull { it.toIntOrNull() }.toSet()
     }
 
     fun isFavorite(context: Context, escuelaId: Int): Boolean {
-        val favorites = getPreferences(context).getStringSet(KEY_FAVORITE_ESCUELAS, emptySet()) ?: emptySet()
-        return favorites.contains(escuelaId.toString())
+        val favorites = getFavoriteIds(context)
+        return favorites.contains(escuelaId)
     }
 
     fun addFavorite(context: Context, escuelaId: Int) {
-        val favorites = getPreferences(context).getStringSet(KEY_FAVORITE_ESCUELAS, emptySet())?.toMutableSet() ?: mutableSetOf()
+        val favorites = getFavoriteIds(context).map { it.toString() }.toMutableSet()
         favorites.add(escuelaId.toString())
-        getPreferences(context).edit().putStringSet(KEY_FAVORITE_ESCUELAS, favorites).apply()
+        setFavorites(context, favorites)
     }
 
     fun removeFavorite(context: Context, escuelaId: Int) {
-        val favorites = getPreferences(context).getStringSet(KEY_FAVORITE_ESCUELAS, emptySet())?.toMutableSet() ?: mutableSetOf()
+        val favorites = getFavoriteIds(context).map { it.toString() }.toMutableSet()
         favorites.remove(escuelaId.toString())
-        getPreferences(context).edit().putStringSet(KEY_FAVORITE_ESCUELAS, favorites).apply()
+        setFavorites(context, favorites)
     }
 }

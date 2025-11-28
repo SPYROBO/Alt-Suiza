@@ -8,7 +8,10 @@ import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.android.volley.Request
+import com.android.volley.toolbox.JsonArrayRequest
 import com.example.alt_ruido.databinding.FragmentEscuelasListBinding
 
 class EscuelasListFragment : Fragment() {
@@ -33,16 +36,53 @@ class EscuelasListFragment : Fragment() {
         setupRecyclerView()
         setupSearchView()
         observeViewModel()
-        viewModel.cargarEscuelas(requireContext())
+        fetchFavoritesAndThenSchools()
     }
 
     private fun setupRecyclerView() {
-        adapter = EscuelasAdapter(listOf())
+        adapter = EscuelasAdapter(emptyList()) { escuela ->
+            val action = EscuelasListFragmentDirections.actionEscuelasListFragmentToFragmentEscuelaDetalle(escuela)
+            findNavController().navigate(action)
+        }
         binding.recyclerViewEscuelas.layoutManager = LinearLayoutManager(context)
         binding.recyclerViewEscuelas.adapter = adapter
     }
 
+    private fun fetchFavoritesAndThenSchools() {
+        if (!SessionManager.isLoggedIn(requireContext())) {
+            viewModel.cargarEscuelas(requireContext())
+            return
+        }
+
+        val userId = SessionManager.getUserId(requireContext())
+        val url = "${ApiConfig.BASE_URL}/get_favoritos.php?usuario_id=$userId"
+
+        val jsonArrayRequest = JsonArrayRequest(Request.Method.GET, url, null,
+            { response ->
+                try {
+                    val favoriteIds = mutableSetOf<String>()
+                    for (i in 0 until response.length()) {
+                        favoriteIds.add(response.getInt(i).toString())
+                    }
+                    SessionManager.setFavorites(requireContext(), favoriteIds)
+                } catch (e: Exception) {
+                    // No hacer nada si falla, se usarán los favoritos locales
+                } finally {
+                    viewModel.cargarEscuelas(requireContext())
+                }
+            },
+            { _ -> // Ignorar error de red de favoritos
+                viewModel.cargarEscuelas(requireContext())
+            }
+        )
+        VolleySingleton.getInstance(requireContext()).addToRequestQueue(jsonArrayRequest)
+    }
+
     private fun setupSearchView() {
+        binding.searchView.setOnClickListener {
+            binding.searchView.isIconified = false
+        }
+
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 binding.searchView.clearFocus()
@@ -77,7 +117,10 @@ class EscuelasListFragment : Fragment() {
             binding.progressBar.visibility = View.GONE
             binding.contentContainer.visibility = View.VISIBLE
             listaCompletaDeEscuelas = escuelas
-            adapter.updateData(escuelas)
+            
+            // --- CORRECCIÓN AQUÍ ---
+            // Re-aplica el filtro con el texto que ya está en la barra de búsqueda
+            filtrarLista(binding.searchView.query.toString())
         }
 
         viewModel.error.observe(viewLifecycleOwner) {

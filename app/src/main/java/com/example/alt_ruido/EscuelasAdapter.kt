@@ -15,8 +15,10 @@ import com.google.android.material.card.MaterialCardView
 import org.json.JSONObject
 import kotlin.random.Random
 
-class EscuelasAdapter(private var escuelas: List<Escuela>) :
-    RecyclerView.Adapter<EscuelasAdapter.EscuelaViewHolder>() {
+class EscuelasAdapter(
+    private var escuelas: List<Escuela>,
+    private val onItemClick: (Escuela) -> Unit
+) : RecyclerView.Adapter<EscuelasAdapter.EscuelaViewHolder>() {
 
     class EscuelaViewHolder(val binding: ItemEscuelaCardBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -48,8 +50,7 @@ class EscuelasAdapter(private var escuelas: List<Escuela>) :
         holder.binding.tvDecibelios.setTextColor(Color.parseColor(textColorHex))
 
         holder.binding.root.setOnClickListener {
-            val action = EscuelasListFragmentDirections.actionEscuelasListFragmentToFragmentEscuelaDetalle(escuela)
-            holder.itemView.findNavController().navigate(action)
+            onItemClick(escuela)
         }
 
         // --- Lógica de Favoritos ---
@@ -78,24 +79,23 @@ class EscuelasAdapter(private var escuelas: List<Escuela>) :
         val userId = SessionManager.getUserId(context)
         val isCurrentlyFavorite = SessionManager.isFavorite(context, escuelaId)
 
-        val url = "https://gangliar-chet-promptly.ngrok-free.dev/api/toggle_fav.php"
+        val url = "${ApiConfig.BASE_URL}/toggle_fav.php"
 
         val stringRequest = object : StringRequest(
             Request.Method.POST, url,
             { response ->
                 try {
                     val jsonObject = JSONObject(response)
-                    val success = jsonObject.optBoolean("success") // Usamos optBoolean por seguridad
-                    
+                    val success = jsonObject.optBoolean("success")
+
                     if (success) {
                         if (isCurrentlyFavorite) {
                             SessionManager.removeFavorite(context, escuelaId)
                         } else {
                             SessionManager.addFavorite(context, escuelaId)
                         }
-                        notifyItemChanged(position) // Actualiza solo este item
+                        notifyItemChanged(position)
                     } else {
-                        // Muestra el mensaje de error del servidor, o uno genérico si no viene
                         val errorMessage = jsonObject.optString("message", "Error al actualizar favorito.")
                         Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
                     }

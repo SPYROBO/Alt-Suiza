@@ -42,7 +42,10 @@ class FragmentEscuelaDetalle : Fragment() {
     }
 
     private fun setupRecyclerView() {
+        // --- CORRECCIÓN AQUÍ ---
+        // Se elimina la lambda innecesaria
         aulasAdapter = AulasAdapter(emptyList())
+        
         binding.recyclerViewAulas.apply {
             layoutManager = GridLayoutManager(context, 3)
             adapter = aulasAdapter
@@ -94,7 +97,7 @@ class FragmentEscuelaDetalle : Fragment() {
 
     private fun obtenerYMostrarAulas(escuelaId: Int) {
         binding.tvTituloAulas.isVisible = true
-        val url = "https://gangliar-chet-promptly.ngrok-free.dev/api/get_aulas.php?esc_id=$escuelaId"
+        val url = "${ApiConfig.BASE_URL}/get_aulas.php?esc_id=$escuelaId"
 
         val request = StringRequest(Request.Method.GET, url,
             { response ->

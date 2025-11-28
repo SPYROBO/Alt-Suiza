@@ -27,6 +27,9 @@
         <action
             android:id="@+id/action_homeFragment_to_escuelasListFragment"
             app:destination="@id/escuelasListFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_fragmentEscuelaDetalle"
+            app:destination="@id/fragmentEscuelaDetalle" />
     </fragment>
 
     <!-- Muestra la lista de escuelas -->
@@ -35,8 +38,6 @@
         android:name="com.example.alt_ruido.EscuelasListFragment"
         android:label="fragment_escuelas_list"
         tools:layout="@layout/fragment_escuelas_list" >
-        <!-- ACCIÓN: Define la navegación DESDE la lista HACIA el detalle -->
-        <!-- Safe Args usa este ID para crear el método de navegación -->
         <action
             android:id="@+id/action_escuelasListFragment_to_fragmentEscuelaDetalle"
             app:destination="@id/fragmentEscuelaDetalle" />
@@ -48,7 +49,6 @@
         android:name="com.example.alt_ruido.FragmentEscuelaDetalle"
         android:label="fragment_escuela_detalle"
         tools:layout="@layout/fragment_escuela_detalle" >
-        <!-- ARGUMENTO: Declara que este fragmento espera recibir un objeto Escuela -->
         <argument
             android:name="escuela_seleccionada"
             app:argType="com.example.alt_ruido.Escuela" />

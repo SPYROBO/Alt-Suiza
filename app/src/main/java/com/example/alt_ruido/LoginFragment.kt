@@ -50,7 +50,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun loginUsuario(correo: String, pass: String) {
-        val url = "https://gangliar-chet-promptly.ngrok-free.dev/api/login.php"
+        val url = "${ApiConfig.BASE_URL}/login.php"
 
         val stringRequest = object : StringRequest(
             Request.Method.POST,
@@ -61,10 +61,7 @@ class LoginFragment : Fragment() {
                     val success = jsonObject.optBoolean("success", false)
 
                     if (success) {
-                        // --- CORRECCIÓN AQUÍ ---
-                        // 1. Obtenemos el objeto anidado "usuario"
                         val usuarioObject = jsonObject.getJSONObject("usuario")
-                        // 2. Obtenemos el "id" de ese objeto
                         val userId = usuarioObject.optInt("id", -1)
 
                         if (userId != -1) {

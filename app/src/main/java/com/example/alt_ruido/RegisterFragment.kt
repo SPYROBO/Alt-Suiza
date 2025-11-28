@@ -42,7 +42,7 @@ class RegisterFragment : Fragment() {
     }
 
     private fun registrarUsuario(nombre: String, apellido: String, correo: String, pass: String) {
-        val url = "https://gangliar-chet-promptly.ngrok-free.dev/api/registrar.php"
+        val url = "${ApiConfig.BASE_URL}/registrar.php"
 
         val stringRequest = object : StringRequest(
             Request.Method.POST,
@@ -73,7 +73,7 @@ class RegisterFragment : Fragment() {
                 params["password"] = pass
                 params["nombre"] = nombre
                 params["apellido"] = apellido
-                params["rol_id"] = "1" // Asumiendo rol de usuario estándar
+                params["rol_id"] = "1"
                 return params
             }
         }

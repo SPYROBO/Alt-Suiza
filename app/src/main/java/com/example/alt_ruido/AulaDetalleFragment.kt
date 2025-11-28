@@ -48,8 +48,10 @@ class AulaDetalleFragment : Fragment() {
         binding.graphView.viewport.isScrollable = false
         binding.graphView.viewport.isScalable = true
 
-        binding.graphView.title = "Mediciones de Decibeles (en vivo)"
-        binding.graphView.gridLabelRenderer.numHorizontalLabels = 11
+        // El título ahora está en el layout, esta línea ya no es necesaria
+        // binding.graphView.title = "Mediciones de Decibeles (en vivo)"
+        
+        binding.graphView.gridLabelRenderer.numHorizontalLabels = 9
     }
 
     override fun onResume() {

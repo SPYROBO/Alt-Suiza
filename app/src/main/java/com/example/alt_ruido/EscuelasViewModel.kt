@@ -17,7 +17,7 @@ class EscuelasViewModel : ViewModel() {
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> get() = _error
 
-    private val url = "https://gangliar-chet-promptly.ngrok-free.dev/api/get_escuelas.php"
+    private val url = "${ApiConfig.BASE_URL}/get_escuelas.php"
 
     fun cargarEscuelas(context: Context) {
         val jsonArrayRequest = JsonArrayRequest(

@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.android.volley.Request
+import com.android.volley.toolbox.JsonArrayRequest
 import com.example.alt_ruido.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -35,8 +37,19 @@ class HomeFragment : Fragment() {
         checkSessionStatus()
     }
 
+    override fun onResume() {
+        super.onResume()
+        // Sincronizar favoritos cada vez que la pantalla se vuelve visible
+        if (SessionManager.isLoggedIn(requireContext())) {
+            fetchFavoritesAndThenSchools()
+        }
+    }
+
     private fun setupFavoritesRecyclerView() {
-        favoritesAdapter = EscuelasAdapter(emptyList())
+        favoritesAdapter = EscuelasAdapter(emptyList()) { escuela ->
+            val action = HomeFragmentDirections.actionHomeFragmentToFragmentEscuelaDetalle(escuela)
+            findNavController().navigate(action)
+        }
         binding.recyclerViewFavorites.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = favoritesAdapter
@@ -55,14 +68,37 @@ class HomeFragment : Fragment() {
 
         if (isLoggedIn) {
             observeViewModel()
-            viewModel.cargarEscuelas(requireContext()) // Carga todas las escuelas
         }
+    }
+
+    private fun fetchFavoritesAndThenSchools() {
+        val userId = SessionManager.getUserId(requireContext())
+        val url = "${ApiConfig.BASE_URL}/get_favoritos.php?usuario_id=$userId"
+
+        val jsonArrayRequest = JsonArrayRequest(Request.Method.GET, url, null,
+            { response ->
+                try {
+                    val favoriteIds = mutableSetOf<String>()
+                    for (i in 0 until response.length()) {
+                        favoriteIds.add(response.getInt(i).toString())
+                    }
+                    SessionManager.setFavorites(requireContext(), favoriteIds)
+                } catch (e: Exception) {
+                    // No hacer nada si falla, se usarán los favoritos locales
+                } finally {
+                    viewModel.cargarEscuelas(requireContext())
+                }
+            },
+            { _ -> // Ignorar error de red de favoritos
+                viewModel.cargarEscuelas(requireContext())
+            }
+        )
+        VolleySingleton.getInstance(requireContext()).addToRequestQueue(jsonArrayRequest)
     }
 
     private fun observeViewModel() {
         viewModel.escuelas.observe(viewLifecycleOwner) { allSchools ->
-            // Filtra la lista para obtener solo las favoritas
-            val favoriteIds = SessionManager.getFavoriteIds(requireContext()) // Necesitamos este método
+            val favoriteIds = SessionManager.getFavoriteIds(requireContext())
             val favoriteSchools = allSchools.filter { it.id in favoriteIds }
 
             if (favoriteSchools.isEmpty()) {
@@ -76,7 +112,6 @@ class HomeFragment : Fragment() {
         }
 
         viewModel.error.observe(viewLifecycleOwner) {
-            // Opcional: manejar errores si la carga de escuelas falla
             binding.tvNoFavorites.text = "Error al cargar las escuelas."
             binding.tvNoFavorites.isVisible = true
             binding.recyclerViewFavorites.isVisible = false
